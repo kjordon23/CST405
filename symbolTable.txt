@@ -1,0 +1,10 @@
+NAME           TYPE           SIZE (arrays)  SCOPE          VALUE          
+
+a              float          NA             0              0.000000                 
+b              float          NA             0              3.400000                 
+c              char           NA             0              c                        
+d              int            NA             0              0                        
+x              int            NA             0              0                        
+y              array of int   5              0              {1, 2, 3, 4, 5}
+z              int            NA             0              0                        
+num            int function   NA             0              NULL                      

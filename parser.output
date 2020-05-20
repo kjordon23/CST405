@@ -1,0 +1,2558 @@
+Terminals unused in grammar
+
+   NOTEQUA
+
+
+State 0 conflicts: 4 shift/reduce
+State 6 conflicts: 4 shift/reduce
+State 10 conflicts: 8 shift/reduce
+State 14 conflicts: 8 shift/reduce
+State 58 conflicts: 1 shift/reduce
+State 86 conflicts: 16 reduce/reduce
+State 88 conflicts: 1 shift/reduce
+State 115 conflicts: 1 shift/reduce
+State 116 conflicts: 1 shift/reduce
+State 117 conflicts: 1 shift/reduce
+State 118 conflicts: 1 shift/reduce
+State 119 conflicts: 1 shift/reduce
+State 120 conflicts: 1 shift/reduce
+State 121 conflicts: 1 shift/reduce
+State 122 conflicts: 1 shift/reduce
+State 123 conflicts: 1 shift/reduce
+State 124 conflicts: 1 shift/reduce
+State 125 conflicts: 12 shift/reduce
+State 126 conflicts: 1 shift/reduce
+State 132 conflicts: 4 shift/reduce
+State 141 conflicts: 8 shift/reduce
+State 152 conflicts: 1 shift/reduce
+
+
+Grammar
+
+    0 $accept: prog $end
+
+    1 $@1: %empty
+
+    2 $@2: %empty
+
+    3 prog: VarDecList $@1 stmtList $@2 FuncDecListOptional
+
+    4 VarDecList: VarDecList VarDecl
+    5           | VarDecl
+    6           | %empty
+
+    7 $@3: %empty
+
+    8 $@4: %empty
+
+    9 VarDecl: Type $@3 decNames $@4 SEMICOLON
+
+   10 decNames: decNames COMMA var
+   11         | decNames COMMA initVar
+   12         | var
+   13         | initVar
+
+   14 var: ID
+   15    | ID array
+
+   16 array: LEFTBRAC Expr RIGHTBRAC
+   17      | LEFTBRAC NUMBER RIGHTBRAC
+
+   18 initVar: ID EQUAL Const
+   19        | ID array EQUAL LEFTCURLY values RIGHTCURLY
+
+   20 values: values COMMA Const
+   21       | Const
+
+   22 Type: INT_T
+   23     | CHAR_T
+   24     | FLOAT_T
+   25     | VOID_T
+
+   26 stmtList: stmt
+   27         | stmtList stmt
+   28         | %empty
+
+   29 stmt: assign SEMICOLON
+   30     | readStatement
+   31     | writeStatement
+   32     | whileStatement
+   33     | decisionStatement
+   34     | BREAK_T SEMICOLON
+   35     | funcCall SEMICOLON
+   36     | Block
+
+   37 readStatement: READ_T LEFTPAREN var RIGHTPAREN SEMICOLON
+
+   38 writeStatement: WRITE_T LEFTPAREN var RIGHTPAREN SEMICOLON
+   39               | WRITELN_T SEMICOLON
+
+   40 whileStatement: WHILE_T LEFTPAREN Expr RIGHTPAREN Block
+
+   41 decisionStatement: IF_T LEFTPAREN Expr RIGHTPAREN Block ElseStatement
+
+   42 ElseStatement: ELSE_T Block
+   43              | %empty
+
+   44 Block: LEFTCURLY stmtList RIGHTCURLY
+
+   45 Expr: Expr PLUS Expr
+   46     | Expr MINUS Expr
+   47     | Expr TIMES Expr
+   48     | Expr DIVIDE Expr
+   49     | Expr EQCOND Expr
+   50     | Expr NOTEQUAL Expr
+   51     | Expr ORCOND Expr
+   52     | Expr ANDCOND Expr
+   53     | EXCLAMCOND Expr
+   54     | Expr LTCOND Expr
+   55     | Expr GTCOND Expr
+   56     | Expr LTECOND Expr
+   57     | Expr GTECOND Expr
+   58     | LEFTPAREN Expr RIGHTPAREN
+   59     | var_ref
+   60     | Const
+   61     | MINUS Const
+   62     | funcCall
+
+   63 assign: var_ref EQUAL Expr
+
+   64 var_ref: var
+
+   65 funcCall: ID LEFTPAREN funcCallParams RIGHTPAREN
+
+   66 funcCallParams: funcCallParam
+   67               | %empty
+
+   68 funcCallParam: funcCallParam COMMA Expr
+   69              | Expr
+
+   70 FuncDecListOptional: FuncDecList
+   71                    | %empty
+
+   72 FuncDecList: FuncDecList FuncDecl
+   73            | FuncDecl
+
+   74 $@5: %empty
+
+   75 FuncDecl: $@5 FuncDeclHead FuncDeclTail
+
+   76 $@6: %empty
+
+   77 $@7: %empty
+
+   78 FuncDeclHead: $@6 FuncType ID LEFTPAREN $@7 ParamDecList RIGHTPAREN
+
+   79 FuncType: Type
+
+   80 ParamDecList: ParamDecListTail
+   81             | VOID_T
+   82             | %empty
+
+   83 ParamDecListTail: ParamDecListTail COMMA ParamDecl
+   84                 | ParamDecl
+
+   85 $@8: %empty
+
+   86 ParamDecl: $@8 Type var
+
+   87 FuncDeclTail: LEFTCURLY FuncVarDecs FuncStatements FuncReturn RIGHTCURLY
+
+   88 FuncVarDecs: VarDecList
+
+   89 FuncStatements: stmtList
+
+   90 FuncReturn: RETURN_T Expr SEMICOLON
+   91           | %empty
+
+   92 Const: NUMBER
+   93      | NUM_FLOAT
+   94      | CHAR_VAL
+   95      | MINUS Const
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+INT_T (258) 22
+CHAR_T (259) 23
+VOID_T (260) 25 81
+FLOAT_T (261) 24
+ID (262) 14 15 18 19 65 78
+PLUS (263) 45
+MINUS (264) 46 61 95
+TIMES (265) 47
+DIVIDE (266) 48
+SEMICOLON (267) 9 29 34 35 37 38 39 90
+LEFTBRAC (268) 16 17
+RIGHTBRAC (269) 16 17
+EQUAL (270) 18 19 63
+LEFTCURLY (271) 19 44 87
+RIGHTCURLY (272) 19 44 87
+COMMA (273) 10 11 20 68 83
+LEFTPAREN (274) 37 38 40 41 58 65 78
+RIGHTPAREN (275) 37 38 40 41 58 65 78
+EXCLAMCOND (276) 53
+ANDCOND (277) 52
+ORCOND (278) 51
+LTCOND (279) 54
+GTCOND (280) 55
+LTECOND (281) 56
+GTECOND (282) 57
+NOTEQUAL (283) 50
+EQCOND (284) 49
+WRITELN_T (285) 39
+WRITE_T (286) 38
+WHILE_T (287) 40
+IF_T (288) 41
+ELSE_T (289) 42
+RETURN_T (290) 90
+BREAK_T (291) 34
+READ_T (292) 37
+NUMBER (293) 17 92
+NUM_FLOAT (294) 93
+CHAR_VAL (295) 94
+NEG (296)
+NOTEQUA (297)
+
+
+Nonterminals, with rules where they appear
+
+$accept (43)
+    on left: 0
+prog (44)
+    on left: 3, on right: 0
+$@1 (45)
+    on left: 1, on right: 3
+$@2 (46)
+    on left: 2, on right: 3
+VarDecList (47)
+    on left: 4 5 6, on right: 3 4 88
+VarDecl (48)
+    on left: 9, on right: 4 5
+$@3 (49)
+    on left: 7, on right: 9
+$@4 (50)
+    on left: 8, on right: 9
+decNames (51)
+    on left: 10 11 12 13, on right: 9 10 11
+var (52)
+    on left: 14 15, on right: 10 12 37 38 64 86
+array (53)
+    on left: 16 17, on right: 15 19
+initVar (54)
+    on left: 18 19, on right: 11 13
+values (55)
+    on left: 20 21, on right: 19 20
+Type (56)
+    on left: 22 23 24 25, on right: 9 79 86
+stmtList (57)
+    on left: 26 27 28, on right: 3 27 44 89
+stmt (58)
+    on left: 29 30 31 32 33 34 35 36, on right: 26 27
+readStatement (59)
+    on left: 37, on right: 30
+writeStatement (60)
+    on left: 38 39, on right: 31
+whileStatement (61)
+    on left: 40, on right: 32
+decisionStatement (62)
+    on left: 41, on right: 33
+ElseStatement (63)
+    on left: 42 43, on right: 41
+Block (64)
+    on left: 44, on right: 36 40 41 42
+Expr (65)
+    on left: 45 46 47 48 49 50 51 52 53 54 55 56 57 58 59 60 61 62,
+    on right: 16 40 41 45 46 47 48 49 50 51 52 53 54 55 56 57 58 63
+    68 69 90
+assign (66)
+    on left: 63, on right: 29
+var_ref (67)
+    on left: 64, on right: 59 63
+funcCall (68)
+    on left: 65, on right: 35 62
+funcCallParams (69)
+    on left: 66 67, on right: 65
+funcCallParam (70)
+    on left: 68 69, on right: 66 68
+FuncDecListOptional (71)
+    on left: 70 71, on right: 3
+FuncDecList (72)
+    on left: 72 73, on right: 70 72
+FuncDecl (73)
+    on left: 75, on right: 72 73
+$@5 (74)
+    on left: 74, on right: 75
+FuncDeclHead (75)
+    on left: 78, on right: 75
+$@6 (76)
+    on left: 76, on right: 78
+$@7 (77)
+    on left: 77, on right: 78
+FuncType (78)
+    on left: 79, on right: 78
+ParamDecList (79)
+    on left: 80 81 82, on right: 78
+ParamDecListTail (80)
+    on left: 83 84, on right: 80 83
+ParamDecl (81)
+    on left: 86, on right: 83 84
+$@8 (82)
+    on left: 85, on right: 86
+FuncDeclTail (83)
+    on left: 87, on right: 75
+FuncVarDecs (84)
+    on left: 88, on right: 87
+FuncStatements (85)
+    on left: 89, on right: 87
+FuncReturn (86)
+    on left: 90 91, on right: 87
+Const (87)
+    on left: 92 93 94 95, on right: 18 20 21 60 61 95
+
+
+State 0
+
+    0 $accept: . prog $end
+
+    INT_T    shift, and go to state 1
+    CHAR_T   shift, and go to state 2
+    VOID_T   shift, and go to state 3
+    FLOAT_T  shift, and go to state 4
+
+    INT_T     [reduce using rule 6 (VarDecList)]
+    CHAR_T    [reduce using rule 6 (VarDecList)]
+    VOID_T    [reduce using rule 6 (VarDecList)]
+    FLOAT_T   [reduce using rule 6 (VarDecList)]
+    $default  reduce using rule 6 (VarDecList)
+
+    prog        go to state 5
+    VarDecList  go to state 6
+    VarDecl     go to state 7
+    Type        go to state 8
+
+
+State 1
+
+   22 Type: INT_T .
+
+    $default  reduce using rule 22 (Type)
+
+
+State 2
+
+   23 Type: CHAR_T .
+
+    $default  reduce using rule 23 (Type)
+
+
+State 3
+
+   25 Type: VOID_T .
+
+    $default  reduce using rule 25 (Type)
+
+
+State 4
+
+   24 Type: FLOAT_T .
+
+    $default  reduce using rule 24 (Type)
+
+
+State 5
+
+    0 $accept: prog . $end
+
+    $end  shift, and go to state 9
+
+
+State 6
+
+    3 prog: VarDecList . $@1 stmtList $@2 FuncDecListOptional
+    4 VarDecList: VarDecList . VarDecl
+
+    INT_T    shift, and go to state 1
+    CHAR_T   shift, and go to state 2
+    VOID_T   shift, and go to state 3
+    FLOAT_T  shift, and go to state 4
+
+    INT_T     [reduce using rule 1 ($@1)]
+    CHAR_T    [reduce using rule 1 ($@1)]
+    VOID_T    [reduce using rule 1 ($@1)]
+    FLOAT_T   [reduce using rule 1 ($@1)]
+    $default  reduce using rule 1 ($@1)
+
+    $@1      go to state 10
+    VarDecl  go to state 11
+    Type     go to state 8
+
+
+State 7
+
+    5 VarDecList: VarDecl .
+
+    $default  reduce using rule 5 (VarDecList)
+
+
+State 8
+
+    9 VarDecl: Type . $@3 decNames $@4 SEMICOLON
+
+    $default  reduce using rule 7 ($@3)
+
+    $@3  go to state 12
+
+
+State 9
+
+    0 $accept: prog $end .
+
+    $default  accept
+
+
+State 10
+
+    3 prog: VarDecList $@1 . stmtList $@2 FuncDecListOptional
+
+    ID         shift, and go to state 13
+    LEFTCURLY  shift, and go to state 14
+    WRITELN_T  shift, and go to state 15
+    WRITE_T    shift, and go to state 16
+    WHILE_T    shift, and go to state 17
+    IF_T       shift, and go to state 18
+    BREAK_T    shift, and go to state 19
+    READ_T     shift, and go to state 20
+
+    ID         [reduce using rule 28 (stmtList)]
+    LEFTCURLY  [reduce using rule 28 (stmtList)]
+    WRITELN_T  [reduce using rule 28 (stmtList)]
+    WRITE_T    [reduce using rule 28 (stmtList)]
+    WHILE_T    [reduce using rule 28 (stmtList)]
+    IF_T       [reduce using rule 28 (stmtList)]
+    BREAK_T    [reduce using rule 28 (stmtList)]
+    READ_T     [reduce using rule 28 (stmtList)]
+    $default   reduce using rule 28 (stmtList)
+
+    var                go to state 21
+    stmtList           go to state 22
+    stmt               go to state 23
+    readStatement      go to state 24
+    writeStatement     go to state 25
+    whileStatement     go to state 26
+    decisionStatement  go to state 27
+    Block              go to state 28
+    assign             go to state 29
+    var_ref            go to state 30
+    funcCall           go to state 31
+
+
+State 11
+
+    4 VarDecList: VarDecList VarDecl .
+
+    $default  reduce using rule 4 (VarDecList)
+
+
+State 12
+
+    9 VarDecl: Type $@3 . decNames $@4 SEMICOLON
+
+    ID  shift, and go to state 32
+
+    decNames  go to state 33
+    var       go to state 34
+    initVar   go to state 35
+
+
+State 13
+
+   14 var: ID .
+   15    | ID . array
+   65 funcCall: ID . LEFTPAREN funcCallParams RIGHTPAREN
+
+    LEFTBRAC   shift, and go to state 36
+    LEFTPAREN  shift, and go to state 37
+
+    $default  reduce using rule 14 (var)
+
+    array  go to state 38
+
+
+State 14
+
+   44 Block: LEFTCURLY . stmtList RIGHTCURLY
+
+    ID         shift, and go to state 13
+    LEFTCURLY  shift, and go to state 14
+    WRITELN_T  shift, and go to state 15
+    WRITE_T    shift, and go to state 16
+    WHILE_T    shift, and go to state 17
+    IF_T       shift, and go to state 18
+    BREAK_T    shift, and go to state 19
+    READ_T     shift, and go to state 20
+
+    ID         [reduce using rule 28 (stmtList)]
+    LEFTCURLY  [reduce using rule 28 (stmtList)]
+    WRITELN_T  [reduce using rule 28 (stmtList)]
+    WRITE_T    [reduce using rule 28 (stmtList)]
+    WHILE_T    [reduce using rule 28 (stmtList)]
+    IF_T       [reduce using rule 28 (stmtList)]
+    BREAK_T    [reduce using rule 28 (stmtList)]
+    READ_T     [reduce using rule 28 (stmtList)]
+    $default   reduce using rule 28 (stmtList)
+
+    var                go to state 21
+    stmtList           go to state 39
+    stmt               go to state 23
+    readStatement      go to state 24
+    writeStatement     go to state 25
+    whileStatement     go to state 26
+    decisionStatement  go to state 27
+    Block              go to state 28
+    assign             go to state 29
+    var_ref            go to state 30
+    funcCall           go to state 31
+
+
+State 15
+
+   39 writeStatement: WRITELN_T . SEMICOLON
+
+    SEMICOLON  shift, and go to state 40
+
+
+State 16
+
+   38 writeStatement: WRITE_T . LEFTPAREN var RIGHTPAREN SEMICOLON
+
+    LEFTPAREN  shift, and go to state 41
+
+
+State 17
+
+   40 whileStatement: WHILE_T . LEFTPAREN Expr RIGHTPAREN Block
+
+    LEFTPAREN  shift, and go to state 42
+
+
+State 18
+
+   41 decisionStatement: IF_T . LEFTPAREN Expr RIGHTPAREN Block ElseStatement
+
+    LEFTPAREN  shift, and go to state 43
+
+
+State 19
+
+   34 stmt: BREAK_T . SEMICOLON
+
+    SEMICOLON  shift, and go to state 44
+
+
+State 20
+
+   37 readStatement: READ_T . LEFTPAREN var RIGHTPAREN SEMICOLON
+
+    LEFTPAREN  shift, and go to state 45
+
+
+State 21
+
+   64 var_ref: var .
+
+    $default  reduce using rule 64 (var_ref)
+
+
+State 22
+
+    3 prog: VarDecList $@1 stmtList . $@2 FuncDecListOptional
+   27 stmtList: stmtList . stmt
+
+    ID         shift, and go to state 13
+    LEFTCURLY  shift, and go to state 14
+    WRITELN_T  shift, and go to state 15
+    WRITE_T    shift, and go to state 16
+    WHILE_T    shift, and go to state 17
+    IF_T       shift, and go to state 18
+    BREAK_T    shift, and go to state 19
+    READ_T     shift, and go to state 20
+
+    $default  reduce using rule 2 ($@2)
+
+    $@2                go to state 46
+    var                go to state 21
+    stmt               go to state 47
+    readStatement      go to state 24
+    writeStatement     go to state 25
+    whileStatement     go to state 26
+    decisionStatement  go to state 27
+    Block              go to state 28
+    assign             go to state 29
+    var_ref            go to state 30
+    funcCall           go to state 31
+
+
+State 23
+
+   26 stmtList: stmt .
+
+    $default  reduce using rule 26 (stmtList)
+
+
+State 24
+
+   30 stmt: readStatement .
+
+    $default  reduce using rule 30 (stmt)
+
+
+State 25
+
+   31 stmt: writeStatement .
+
+    $default  reduce using rule 31 (stmt)
+
+
+State 26
+
+   32 stmt: whileStatement .
+
+    $default  reduce using rule 32 (stmt)
+
+
+State 27
+
+   33 stmt: decisionStatement .
+
+    $default  reduce using rule 33 (stmt)
+
+
+State 28
+
+   36 stmt: Block .
+
+    $default  reduce using rule 36 (stmt)
+
+
+State 29
+
+   29 stmt: assign . SEMICOLON
+
+    SEMICOLON  shift, and go to state 48
+
+
+State 30
+
+   63 assign: var_ref . EQUAL Expr
+
+    EQUAL  shift, and go to state 49
+
+
+State 31
+
+   35 stmt: funcCall . SEMICOLON
+
+    SEMICOLON  shift, and go to state 50
+
+
+State 32
+
+   14 var: ID .
+   15    | ID . array
+   18 initVar: ID . EQUAL Const
+   19        | ID . array EQUAL LEFTCURLY values RIGHTCURLY
+
+    LEFTBRAC  shift, and go to state 36
+    EQUAL     shift, and go to state 51
+
+    $default  reduce using rule 14 (var)
+
+    array  go to state 52
+
+
+State 33
+
+    9 VarDecl: Type $@3 decNames . $@4 SEMICOLON
+   10 decNames: decNames . COMMA var
+   11         | decNames . COMMA initVar
+
+    COMMA  shift, and go to state 53
+
+    $default  reduce using rule 8 ($@4)
+
+    $@4  go to state 54
+
+
+State 34
+
+   12 decNames: var .
+
+    $default  reduce using rule 12 (decNames)
+
+
+State 35
+
+   13 decNames: initVar .
+
+    $default  reduce using rule 13 (decNames)
+
+
+State 36
+
+   16 array: LEFTBRAC . Expr RIGHTBRAC
+   17      | LEFTBRAC . NUMBER RIGHTBRAC
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 58
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 61
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 37
+
+   65 funcCall: ID LEFTPAREN . funcCallParams RIGHTPAREN
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    $default  reduce using rule 67 (funcCallParams)
+
+    var             go to state 21
+    Expr            go to state 66
+    var_ref         go to state 62
+    funcCall        go to state 63
+    funcCallParams  go to state 67
+    funcCallParam   go to state 68
+    Const           go to state 64
+
+
+State 38
+
+   15 var: ID array .
+
+    $default  reduce using rule 15 (var)
+
+
+State 39
+
+   27 stmtList: stmtList . stmt
+   44 Block: LEFTCURLY stmtList . RIGHTCURLY
+
+    ID          shift, and go to state 13
+    LEFTCURLY   shift, and go to state 14
+    RIGHTCURLY  shift, and go to state 69
+    WRITELN_T   shift, and go to state 15
+    WRITE_T     shift, and go to state 16
+    WHILE_T     shift, and go to state 17
+    IF_T        shift, and go to state 18
+    BREAK_T     shift, and go to state 19
+    READ_T      shift, and go to state 20
+
+    var                go to state 21
+    stmt               go to state 47
+    readStatement      go to state 24
+    writeStatement     go to state 25
+    whileStatement     go to state 26
+    decisionStatement  go to state 27
+    Block              go to state 28
+    assign             go to state 29
+    var_ref            go to state 30
+    funcCall           go to state 31
+
+
+State 40
+
+   39 writeStatement: WRITELN_T SEMICOLON .
+
+    $default  reduce using rule 39 (writeStatement)
+
+
+State 41
+
+   38 writeStatement: WRITE_T LEFTPAREN . var RIGHTPAREN SEMICOLON
+
+    ID  shift, and go to state 70
+
+    var  go to state 71
+
+
+State 42
+
+   40 whileStatement: WHILE_T LEFTPAREN . Expr RIGHTPAREN Block
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 72
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 43
+
+   41 decisionStatement: IF_T LEFTPAREN . Expr RIGHTPAREN Block ElseStatement
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 73
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 44
+
+   34 stmt: BREAK_T SEMICOLON .
+
+    $default  reduce using rule 34 (stmt)
+
+
+State 45
+
+   37 readStatement: READ_T LEFTPAREN . var RIGHTPAREN SEMICOLON
+
+    ID  shift, and go to state 70
+
+    var  go to state 74
+
+
+State 46
+
+    3 prog: VarDecList $@1 stmtList $@2 . FuncDecListOptional
+
+    $end      reduce using rule 71 (FuncDecListOptional)
+    $default  reduce using rule 74 ($@5)
+
+    FuncDecListOptional  go to state 75
+    FuncDecList          go to state 76
+    FuncDecl             go to state 77
+    $@5                  go to state 78
+
+
+State 47
+
+   27 stmtList: stmtList stmt .
+
+    $default  reduce using rule 27 (stmtList)
+
+
+State 48
+
+   29 stmt: assign SEMICOLON .
+
+    $default  reduce using rule 29 (stmt)
+
+
+State 49
+
+   63 assign: var_ref EQUAL . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 79
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 50
+
+   35 stmt: funcCall SEMICOLON .
+
+    $default  reduce using rule 35 (stmt)
+
+
+State 51
+
+   18 initVar: ID EQUAL . Const
+
+    MINUS      shift, and go to state 80
+    NUMBER     shift, and go to state 65
+    NUM_FLOAT  shift, and go to state 59
+    CHAR_VAL   shift, and go to state 60
+
+    Const  go to state 81
+
+
+State 52
+
+   15 var: ID array .
+   19 initVar: ID array . EQUAL LEFTCURLY values RIGHTCURLY
+
+    EQUAL  shift, and go to state 82
+
+    $default  reduce using rule 15 (var)
+
+
+State 53
+
+   10 decNames: decNames COMMA . var
+   11         | decNames COMMA . initVar
+
+    ID  shift, and go to state 32
+
+    var      go to state 83
+    initVar  go to state 84
+
+
+State 54
+
+    9 VarDecl: Type $@3 decNames $@4 . SEMICOLON
+
+    SEMICOLON  shift, and go to state 85
+
+
+State 55
+
+   61 Expr: MINUS . Const
+   95 Const: MINUS . Const
+
+    MINUS      shift, and go to state 80
+    NUMBER     shift, and go to state 65
+    NUM_FLOAT  shift, and go to state 59
+    CHAR_VAL   shift, and go to state 60
+
+    Const  go to state 86
+
+
+State 56
+
+   58 Expr: LEFTPAREN . Expr RIGHTPAREN
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 87
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 57
+
+   53 Expr: EXCLAMCOND . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 88
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 58
+
+   17 array: LEFTBRAC NUMBER . RIGHTBRAC
+   92 Const: NUMBER .
+
+    RIGHTBRAC  shift, and go to state 89
+
+    RIGHTBRAC  [reduce using rule 92 (Const)]
+    $default   reduce using rule 92 (Const)
+
+
+State 59
+
+   93 Const: NUM_FLOAT .
+
+    $default  reduce using rule 93 (Const)
+
+
+State 60
+
+   94 Const: CHAR_VAL .
+
+    $default  reduce using rule 94 (Const)
+
+
+State 61
+
+   16 array: LEFTBRAC Expr . RIGHTBRAC
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    PLUS       shift, and go to state 90
+    MINUS      shift, and go to state 91
+    TIMES      shift, and go to state 92
+    DIVIDE     shift, and go to state 93
+    RIGHTBRAC  shift, and go to state 94
+    ANDCOND    shift, and go to state 95
+    ORCOND     shift, and go to state 96
+    LTCOND     shift, and go to state 97
+    GTCOND     shift, and go to state 98
+    LTECOND    shift, and go to state 99
+    GTECOND    shift, and go to state 100
+    NOTEQUAL   shift, and go to state 101
+    EQCOND     shift, and go to state 102
+
+
+State 62
+
+   59 Expr: var_ref .
+
+    $default  reduce using rule 59 (Expr)
+
+
+State 63
+
+   62 Expr: funcCall .
+
+    $default  reduce using rule 62 (Expr)
+
+
+State 64
+
+   60 Expr: Const .
+
+    $default  reduce using rule 60 (Expr)
+
+
+State 65
+
+   92 Const: NUMBER .
+
+    $default  reduce using rule 92 (Const)
+
+
+State 66
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+   69 funcCallParam: Expr .
+
+    PLUS      shift, and go to state 90
+    MINUS     shift, and go to state 91
+    TIMES     shift, and go to state 92
+    DIVIDE    shift, and go to state 93
+    ANDCOND   shift, and go to state 95
+    ORCOND    shift, and go to state 96
+    LTCOND    shift, and go to state 97
+    GTCOND    shift, and go to state 98
+    LTECOND   shift, and go to state 99
+    GTECOND   shift, and go to state 100
+    NOTEQUAL  shift, and go to state 101
+    EQCOND    shift, and go to state 102
+
+    $default  reduce using rule 69 (funcCallParam)
+
+
+State 67
+
+   65 funcCall: ID LEFTPAREN funcCallParams . RIGHTPAREN
+
+    RIGHTPAREN  shift, and go to state 103
+
+
+State 68
+
+   66 funcCallParams: funcCallParam .
+   68 funcCallParam: funcCallParam . COMMA Expr
+
+    COMMA  shift, and go to state 104
+
+    $default  reduce using rule 66 (funcCallParams)
+
+
+State 69
+
+   44 Block: LEFTCURLY stmtList RIGHTCURLY .
+
+    $default  reduce using rule 44 (Block)
+
+
+State 70
+
+   14 var: ID .
+   15    | ID . array
+
+    LEFTBRAC  shift, and go to state 36
+
+    $default  reduce using rule 14 (var)
+
+    array  go to state 38
+
+
+State 71
+
+   38 writeStatement: WRITE_T LEFTPAREN var . RIGHTPAREN SEMICOLON
+
+    RIGHTPAREN  shift, and go to state 105
+
+
+State 72
+
+   40 whileStatement: WHILE_T LEFTPAREN Expr . RIGHTPAREN Block
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    PLUS        shift, and go to state 90
+    MINUS       shift, and go to state 91
+    TIMES       shift, and go to state 92
+    DIVIDE      shift, and go to state 93
+    RIGHTPAREN  shift, and go to state 106
+    ANDCOND     shift, and go to state 95
+    ORCOND      shift, and go to state 96
+    LTCOND      shift, and go to state 97
+    GTCOND      shift, and go to state 98
+    LTECOND     shift, and go to state 99
+    GTECOND     shift, and go to state 100
+    NOTEQUAL    shift, and go to state 101
+    EQCOND      shift, and go to state 102
+
+
+State 73
+
+   41 decisionStatement: IF_T LEFTPAREN Expr . RIGHTPAREN Block ElseStatement
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    PLUS        shift, and go to state 90
+    MINUS       shift, and go to state 91
+    TIMES       shift, and go to state 92
+    DIVIDE      shift, and go to state 93
+    RIGHTPAREN  shift, and go to state 107
+    ANDCOND     shift, and go to state 95
+    ORCOND      shift, and go to state 96
+    LTCOND      shift, and go to state 97
+    GTCOND      shift, and go to state 98
+    LTECOND     shift, and go to state 99
+    GTECOND     shift, and go to state 100
+    NOTEQUAL    shift, and go to state 101
+    EQCOND      shift, and go to state 102
+
+
+State 74
+
+   37 readStatement: READ_T LEFTPAREN var . RIGHTPAREN SEMICOLON
+
+    RIGHTPAREN  shift, and go to state 108
+
+
+State 75
+
+    3 prog: VarDecList $@1 stmtList $@2 FuncDecListOptional .
+
+    $default  reduce using rule 3 (prog)
+
+
+State 76
+
+   70 FuncDecListOptional: FuncDecList .
+   72 FuncDecList: FuncDecList . FuncDecl
+
+    $end      reduce using rule 70 (FuncDecListOptional)
+    $default  reduce using rule 74 ($@5)
+
+    FuncDecl  go to state 109
+    $@5       go to state 78
+
+
+State 77
+
+   73 FuncDecList: FuncDecl .
+
+    $default  reduce using rule 73 (FuncDecList)
+
+
+State 78
+
+   75 FuncDecl: $@5 . FuncDeclHead FuncDeclTail
+
+    $default  reduce using rule 76 ($@6)
+
+    FuncDeclHead  go to state 110
+    $@6           go to state 111
+
+
+State 79
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+   63 assign: var_ref EQUAL Expr .
+
+    PLUS      shift, and go to state 90
+    MINUS     shift, and go to state 91
+    TIMES     shift, and go to state 92
+    DIVIDE    shift, and go to state 93
+    ANDCOND   shift, and go to state 95
+    ORCOND    shift, and go to state 96
+    LTCOND    shift, and go to state 97
+    GTCOND    shift, and go to state 98
+    LTECOND   shift, and go to state 99
+    GTECOND   shift, and go to state 100
+    NOTEQUAL  shift, and go to state 101
+    EQCOND    shift, and go to state 102
+
+    $default  reduce using rule 63 (assign)
+
+
+State 80
+
+   95 Const: MINUS . Const
+
+    MINUS      shift, and go to state 80
+    NUMBER     shift, and go to state 65
+    NUM_FLOAT  shift, and go to state 59
+    CHAR_VAL   shift, and go to state 60
+
+    Const  go to state 112
+
+
+State 81
+
+   18 initVar: ID EQUAL Const .
+
+    $default  reduce using rule 18 (initVar)
+
+
+State 82
+
+   19 initVar: ID array EQUAL . LEFTCURLY values RIGHTCURLY
+
+    LEFTCURLY  shift, and go to state 113
+
+
+State 83
+
+   10 decNames: decNames COMMA var .
+
+    $default  reduce using rule 10 (decNames)
+
+
+State 84
+
+   11 decNames: decNames COMMA initVar .
+
+    $default  reduce using rule 11 (decNames)
+
+
+State 85
+
+    9 VarDecl: Type $@3 decNames $@4 SEMICOLON .
+
+    $default  reduce using rule 9 (VarDecl)
+
+
+State 86
+
+   61 Expr: MINUS Const .
+   95 Const: MINUS Const .
+
+    PLUS        reduce using rule 61 (Expr)
+    PLUS        [reduce using rule 95 (Const)]
+    MINUS       reduce using rule 61 (Expr)
+    MINUS       [reduce using rule 95 (Const)]
+    TIMES       reduce using rule 61 (Expr)
+    TIMES       [reduce using rule 95 (Const)]
+    DIVIDE      reduce using rule 61 (Expr)
+    DIVIDE      [reduce using rule 95 (Const)]
+    SEMICOLON   reduce using rule 61 (Expr)
+    SEMICOLON   [reduce using rule 95 (Const)]
+    RIGHTBRAC   reduce using rule 61 (Expr)
+    RIGHTBRAC   [reduce using rule 95 (Const)]
+    COMMA       reduce using rule 61 (Expr)
+    COMMA       [reduce using rule 95 (Const)]
+    RIGHTPAREN  reduce using rule 61 (Expr)
+    RIGHTPAREN  [reduce using rule 95 (Const)]
+    ANDCOND     reduce using rule 61 (Expr)
+    ANDCOND     [reduce using rule 95 (Const)]
+    ORCOND      reduce using rule 61 (Expr)
+    ORCOND      [reduce using rule 95 (Const)]
+    LTCOND      reduce using rule 61 (Expr)
+    LTCOND      [reduce using rule 95 (Const)]
+    GTCOND      reduce using rule 61 (Expr)
+    GTCOND      [reduce using rule 95 (Const)]
+    LTECOND     reduce using rule 61 (Expr)
+    LTECOND     [reduce using rule 95 (Const)]
+    GTECOND     reduce using rule 61 (Expr)
+    GTECOND     [reduce using rule 95 (Const)]
+    NOTEQUAL    reduce using rule 61 (Expr)
+    NOTEQUAL    [reduce using rule 95 (Const)]
+    EQCOND      reduce using rule 61 (Expr)
+    EQCOND      [reduce using rule 95 (Const)]
+    $default    reduce using rule 61 (Expr)
+
+
+State 87
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+   58     | LEFTPAREN Expr . RIGHTPAREN
+
+    PLUS        shift, and go to state 90
+    MINUS       shift, and go to state 91
+    TIMES       shift, and go to state 92
+    DIVIDE      shift, and go to state 93
+    RIGHTPAREN  shift, and go to state 114
+    ANDCOND     shift, and go to state 95
+    ORCOND      shift, and go to state 96
+    LTCOND      shift, and go to state 97
+    GTCOND      shift, and go to state 98
+    LTECOND     shift, and go to state 99
+    GTECOND     shift, and go to state 100
+    NOTEQUAL    shift, and go to state 101
+    EQCOND      shift, and go to state 102
+
+
+State 88
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   53     | EXCLAMCOND Expr .
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    NOTEQUAL  shift, and go to state 101
+
+    NOTEQUAL  [reduce using rule 53 (Expr)]
+    $default  reduce using rule 53 (Expr)
+
+
+State 89
+
+   17 array: LEFTBRAC NUMBER RIGHTBRAC .
+
+    $default  reduce using rule 17 (array)
+
+
+State 90
+
+   45 Expr: Expr PLUS . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 115
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 91
+
+   46 Expr: Expr MINUS . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 116
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 92
+
+   47 Expr: Expr TIMES . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 117
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 93
+
+   48 Expr: Expr DIVIDE . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 118
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 94
+
+   16 array: LEFTBRAC Expr RIGHTBRAC .
+
+    $default  reduce using rule 16 (array)
+
+
+State 95
+
+   52 Expr: Expr ANDCOND . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 119
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 96
+
+   51 Expr: Expr ORCOND . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 120
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 97
+
+   54 Expr: Expr LTCOND . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 121
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 98
+
+   55 Expr: Expr GTCOND . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 122
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 99
+
+   56 Expr: Expr LTECOND . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 123
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 100
+
+   57 Expr: Expr GTECOND . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 124
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 101
+
+   50 Expr: Expr NOTEQUAL . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 125
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 102
+
+   49 Expr: Expr EQCOND . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 126
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 103
+
+   65 funcCall: ID LEFTPAREN funcCallParams RIGHTPAREN .
+
+    $default  reduce using rule 65 (funcCall)
+
+
+State 104
+
+   68 funcCallParam: funcCallParam COMMA . Expr
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 127
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 105
+
+   38 writeStatement: WRITE_T LEFTPAREN var RIGHTPAREN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 128
+
+
+State 106
+
+   40 whileStatement: WHILE_T LEFTPAREN Expr RIGHTPAREN . Block
+
+    LEFTCURLY  shift, and go to state 14
+
+    Block  go to state 129
+
+
+State 107
+
+   41 decisionStatement: IF_T LEFTPAREN Expr RIGHTPAREN . Block ElseStatement
+
+    LEFTCURLY  shift, and go to state 14
+
+    Block  go to state 130
+
+
+State 108
+
+   37 readStatement: READ_T LEFTPAREN var RIGHTPAREN . SEMICOLON
+
+    SEMICOLON  shift, and go to state 131
+
+
+State 109
+
+   72 FuncDecList: FuncDecList FuncDecl .
+
+    $default  reduce using rule 72 (FuncDecList)
+
+
+State 110
+
+   75 FuncDecl: $@5 FuncDeclHead . FuncDeclTail
+
+    LEFTCURLY  shift, and go to state 132
+
+    FuncDeclTail  go to state 133
+
+
+State 111
+
+   78 FuncDeclHead: $@6 . FuncType ID LEFTPAREN $@7 ParamDecList RIGHTPAREN
+
+    INT_T    shift, and go to state 1
+    CHAR_T   shift, and go to state 2
+    VOID_T   shift, and go to state 3
+    FLOAT_T  shift, and go to state 4
+
+    Type      go to state 134
+    FuncType  go to state 135
+
+
+State 112
+
+   95 Const: MINUS Const .
+
+    $default  reduce using rule 95 (Const)
+
+
+State 113
+
+   19 initVar: ID array EQUAL LEFTCURLY . values RIGHTCURLY
+
+    MINUS      shift, and go to state 80
+    NUMBER     shift, and go to state 65
+    NUM_FLOAT  shift, and go to state 59
+    CHAR_VAL   shift, and go to state 60
+
+    values  go to state 136
+    Const   go to state 137
+
+
+State 114
+
+   58 Expr: LEFTPAREN Expr RIGHTPAREN .
+
+    $default  reduce using rule 58 (Expr)
+
+
+State 115
+
+   45 Expr: Expr . PLUS Expr
+   45     | Expr PLUS Expr .
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    NOTEQUAL  shift, and go to state 101
+
+    NOTEQUAL  [reduce using rule 45 (Expr)]
+    $default  reduce using rule 45 (Expr)
+
+
+State 116
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   46     | Expr MINUS Expr .
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    NOTEQUAL  shift, and go to state 101
+
+    NOTEQUAL  [reduce using rule 46 (Expr)]
+    $default  reduce using rule 46 (Expr)
+
+
+State 117
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   47     | Expr TIMES Expr .
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    NOTEQUAL  shift, and go to state 101
+
+    NOTEQUAL  [reduce using rule 47 (Expr)]
+    $default  reduce using rule 47 (Expr)
+
+
+State 118
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   48     | Expr DIVIDE Expr .
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    NOTEQUAL  shift, and go to state 101
+
+    NOTEQUAL  [reduce using rule 48 (Expr)]
+    $default  reduce using rule 48 (Expr)
+
+
+State 119
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   52     | Expr ANDCOND Expr .
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    PLUS      shift, and go to state 90
+    MINUS     shift, and go to state 91
+    TIMES     shift, and go to state 92
+    DIVIDE    shift, and go to state 93
+    LTCOND    shift, and go to state 97
+    GTCOND    shift, and go to state 98
+    LTECOND   shift, and go to state 99
+    GTECOND   shift, and go to state 100
+    NOTEQUAL  shift, and go to state 101
+
+    NOTEQUAL  [reduce using rule 52 (Expr)]
+    $default  reduce using rule 52 (Expr)
+
+
+State 120
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   51     | Expr ORCOND Expr .
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    PLUS      shift, and go to state 90
+    MINUS     shift, and go to state 91
+    TIMES     shift, and go to state 92
+    DIVIDE    shift, and go to state 93
+    LTCOND    shift, and go to state 97
+    GTCOND    shift, and go to state 98
+    LTECOND   shift, and go to state 99
+    GTECOND   shift, and go to state 100
+    NOTEQUAL  shift, and go to state 101
+
+    NOTEQUAL  [reduce using rule 51 (Expr)]
+    $default  reduce using rule 51 (Expr)
+
+
+State 121
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   54     | Expr LTCOND Expr .
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    PLUS      shift, and go to state 90
+    MINUS     shift, and go to state 91
+    TIMES     shift, and go to state 92
+    DIVIDE    shift, and go to state 93
+    NOTEQUAL  shift, and go to state 101
+
+    NOTEQUAL  [reduce using rule 54 (Expr)]
+    $default  reduce using rule 54 (Expr)
+
+
+State 122
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   55     | Expr GTCOND Expr .
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    PLUS      shift, and go to state 90
+    MINUS     shift, and go to state 91
+    TIMES     shift, and go to state 92
+    DIVIDE    shift, and go to state 93
+    NOTEQUAL  shift, and go to state 101
+
+    NOTEQUAL  [reduce using rule 55 (Expr)]
+    $default  reduce using rule 55 (Expr)
+
+
+State 123
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   56     | Expr LTECOND Expr .
+   57     | Expr . GTECOND Expr
+
+    PLUS      shift, and go to state 90
+    MINUS     shift, and go to state 91
+    TIMES     shift, and go to state 92
+    DIVIDE    shift, and go to state 93
+    NOTEQUAL  shift, and go to state 101
+
+    NOTEQUAL  [reduce using rule 56 (Expr)]
+    $default  reduce using rule 56 (Expr)
+
+
+State 124
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+   57     | Expr GTECOND Expr .
+
+    PLUS      shift, and go to state 90
+    MINUS     shift, and go to state 91
+    TIMES     shift, and go to state 92
+    DIVIDE    shift, and go to state 93
+    NOTEQUAL  shift, and go to state 101
+
+    NOTEQUAL  [reduce using rule 57 (Expr)]
+    $default  reduce using rule 57 (Expr)
+
+
+State 125
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   50     | Expr NOTEQUAL Expr .
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    PLUS      shift, and go to state 90
+    MINUS     shift, and go to state 91
+    TIMES     shift, and go to state 92
+    DIVIDE    shift, and go to state 93
+    ANDCOND   shift, and go to state 95
+    ORCOND    shift, and go to state 96
+    LTCOND    shift, and go to state 97
+    GTCOND    shift, and go to state 98
+    LTECOND   shift, and go to state 99
+    GTECOND   shift, and go to state 100
+    NOTEQUAL  shift, and go to state 101
+    EQCOND    shift, and go to state 102
+
+    PLUS      [reduce using rule 50 (Expr)]
+    MINUS     [reduce using rule 50 (Expr)]
+    TIMES     [reduce using rule 50 (Expr)]
+    DIVIDE    [reduce using rule 50 (Expr)]
+    ANDCOND   [reduce using rule 50 (Expr)]
+    ORCOND    [reduce using rule 50 (Expr)]
+    LTCOND    [reduce using rule 50 (Expr)]
+    GTCOND    [reduce using rule 50 (Expr)]
+    LTECOND   [reduce using rule 50 (Expr)]
+    GTECOND   [reduce using rule 50 (Expr)]
+    NOTEQUAL  [reduce using rule 50 (Expr)]
+    EQCOND    [reduce using rule 50 (Expr)]
+    $default  reduce using rule 50 (Expr)
+
+
+State 126
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   49     | Expr EQCOND Expr .
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+
+    PLUS      shift, and go to state 90
+    MINUS     shift, and go to state 91
+    TIMES     shift, and go to state 92
+    DIVIDE    shift, and go to state 93
+    LTCOND    shift, and go to state 97
+    GTCOND    shift, and go to state 98
+    LTECOND   shift, and go to state 99
+    GTECOND   shift, and go to state 100
+    NOTEQUAL  shift, and go to state 101
+
+    NOTEQUAL  [reduce using rule 49 (Expr)]
+    $default  reduce using rule 49 (Expr)
+
+
+State 127
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+   68 funcCallParam: funcCallParam COMMA Expr .
+
+    PLUS      shift, and go to state 90
+    MINUS     shift, and go to state 91
+    TIMES     shift, and go to state 92
+    DIVIDE    shift, and go to state 93
+    ANDCOND   shift, and go to state 95
+    ORCOND    shift, and go to state 96
+    LTCOND    shift, and go to state 97
+    GTCOND    shift, and go to state 98
+    LTECOND   shift, and go to state 99
+    GTECOND   shift, and go to state 100
+    NOTEQUAL  shift, and go to state 101
+    EQCOND    shift, and go to state 102
+
+    $default  reduce using rule 68 (funcCallParam)
+
+
+State 128
+
+   38 writeStatement: WRITE_T LEFTPAREN var RIGHTPAREN SEMICOLON .
+
+    $default  reduce using rule 38 (writeStatement)
+
+
+State 129
+
+   40 whileStatement: WHILE_T LEFTPAREN Expr RIGHTPAREN Block .
+
+    $default  reduce using rule 40 (whileStatement)
+
+
+State 130
+
+   41 decisionStatement: IF_T LEFTPAREN Expr RIGHTPAREN Block . ElseStatement
+
+    ELSE_T  shift, and go to state 138
+
+    $default  reduce using rule 43 (ElseStatement)
+
+    ElseStatement  go to state 139
+
+
+State 131
+
+   37 readStatement: READ_T LEFTPAREN var RIGHTPAREN SEMICOLON .
+
+    $default  reduce using rule 37 (readStatement)
+
+
+State 132
+
+   87 FuncDeclTail: LEFTCURLY . FuncVarDecs FuncStatements FuncReturn RIGHTCURLY
+
+    INT_T    shift, and go to state 1
+    CHAR_T   shift, and go to state 2
+    VOID_T   shift, and go to state 3
+    FLOAT_T  shift, and go to state 4
+
+    INT_T     [reduce using rule 6 (VarDecList)]
+    CHAR_T    [reduce using rule 6 (VarDecList)]
+    VOID_T    [reduce using rule 6 (VarDecList)]
+    FLOAT_T   [reduce using rule 6 (VarDecList)]
+    $default  reduce using rule 6 (VarDecList)
+
+    VarDecList   go to state 140
+    VarDecl      go to state 7
+    Type         go to state 8
+    FuncVarDecs  go to state 141
+
+
+State 133
+
+   75 FuncDecl: $@5 FuncDeclHead FuncDeclTail .
+
+    $default  reduce using rule 75 (FuncDecl)
+
+
+State 134
+
+   79 FuncType: Type .
+
+    $default  reduce using rule 79 (FuncType)
+
+
+State 135
+
+   78 FuncDeclHead: $@6 FuncType . ID LEFTPAREN $@7 ParamDecList RIGHTPAREN
+
+    ID  shift, and go to state 142
+
+
+State 136
+
+   19 initVar: ID array EQUAL LEFTCURLY values . RIGHTCURLY
+   20 values: values . COMMA Const
+
+    RIGHTCURLY  shift, and go to state 143
+    COMMA       shift, and go to state 144
+
+
+State 137
+
+   21 values: Const .
+
+    $default  reduce using rule 21 (values)
+
+
+State 138
+
+   42 ElseStatement: ELSE_T . Block
+
+    LEFTCURLY  shift, and go to state 14
+
+    Block  go to state 145
+
+
+State 139
+
+   41 decisionStatement: IF_T LEFTPAREN Expr RIGHTPAREN Block ElseStatement .
+
+    $default  reduce using rule 41 (decisionStatement)
+
+
+State 140
+
+    4 VarDecList: VarDecList . VarDecl
+   88 FuncVarDecs: VarDecList .
+
+    INT_T    shift, and go to state 1
+    CHAR_T   shift, and go to state 2
+    VOID_T   shift, and go to state 3
+    FLOAT_T  shift, and go to state 4
+
+    $default  reduce using rule 88 (FuncVarDecs)
+
+    VarDecl  go to state 11
+    Type     go to state 8
+
+
+State 141
+
+   87 FuncDeclTail: LEFTCURLY FuncVarDecs . FuncStatements FuncReturn RIGHTCURLY
+
+    ID         shift, and go to state 13
+    LEFTCURLY  shift, and go to state 14
+    WRITELN_T  shift, and go to state 15
+    WRITE_T    shift, and go to state 16
+    WHILE_T    shift, and go to state 17
+    IF_T       shift, and go to state 18
+    BREAK_T    shift, and go to state 19
+    READ_T     shift, and go to state 20
+
+    ID         [reduce using rule 28 (stmtList)]
+    LEFTCURLY  [reduce using rule 28 (stmtList)]
+    WRITELN_T  [reduce using rule 28 (stmtList)]
+    WRITE_T    [reduce using rule 28 (stmtList)]
+    WHILE_T    [reduce using rule 28 (stmtList)]
+    IF_T       [reduce using rule 28 (stmtList)]
+    BREAK_T    [reduce using rule 28 (stmtList)]
+    READ_T     [reduce using rule 28 (stmtList)]
+    $default   reduce using rule 28 (stmtList)
+
+    var                go to state 21
+    stmtList           go to state 146
+    stmt               go to state 23
+    readStatement      go to state 24
+    writeStatement     go to state 25
+    whileStatement     go to state 26
+    decisionStatement  go to state 27
+    Block              go to state 28
+    assign             go to state 29
+    var_ref            go to state 30
+    funcCall           go to state 31
+    FuncStatements     go to state 147
+
+
+State 142
+
+   78 FuncDeclHead: $@6 FuncType ID . LEFTPAREN $@7 ParamDecList RIGHTPAREN
+
+    LEFTPAREN  shift, and go to state 148
+
+
+State 143
+
+   19 initVar: ID array EQUAL LEFTCURLY values RIGHTCURLY .
+
+    $default  reduce using rule 19 (initVar)
+
+
+State 144
+
+   20 values: values COMMA . Const
+
+    MINUS      shift, and go to state 80
+    NUMBER     shift, and go to state 65
+    NUM_FLOAT  shift, and go to state 59
+    CHAR_VAL   shift, and go to state 60
+
+    Const  go to state 149
+
+
+State 145
+
+   42 ElseStatement: ELSE_T Block .
+
+    $default  reduce using rule 42 (ElseStatement)
+
+
+State 146
+
+   27 stmtList: stmtList . stmt
+   89 FuncStatements: stmtList .
+
+    ID         shift, and go to state 13
+    LEFTCURLY  shift, and go to state 14
+    WRITELN_T  shift, and go to state 15
+    WRITE_T    shift, and go to state 16
+    WHILE_T    shift, and go to state 17
+    IF_T       shift, and go to state 18
+    BREAK_T    shift, and go to state 19
+    READ_T     shift, and go to state 20
+
+    $default  reduce using rule 89 (FuncStatements)
+
+    var                go to state 21
+    stmt               go to state 47
+    readStatement      go to state 24
+    writeStatement     go to state 25
+    whileStatement     go to state 26
+    decisionStatement  go to state 27
+    Block              go to state 28
+    assign             go to state 29
+    var_ref            go to state 30
+    funcCall           go to state 31
+
+
+State 147
+
+   87 FuncDeclTail: LEFTCURLY FuncVarDecs FuncStatements . FuncReturn RIGHTCURLY
+
+    RETURN_T  shift, and go to state 150
+
+    $default  reduce using rule 91 (FuncReturn)
+
+    FuncReturn  go to state 151
+
+
+State 148
+
+   78 FuncDeclHead: $@6 FuncType ID LEFTPAREN . $@7 ParamDecList RIGHTPAREN
+
+    $default  reduce using rule 77 ($@7)
+
+    $@7  go to state 152
+
+
+State 149
+
+   20 values: values COMMA Const .
+
+    $default  reduce using rule 20 (values)
+
+
+State 150
+
+   90 FuncReturn: RETURN_T . Expr SEMICOLON
+
+    ID          shift, and go to state 13
+    MINUS       shift, and go to state 55
+    LEFTPAREN   shift, and go to state 56
+    EXCLAMCOND  shift, and go to state 57
+    NUMBER      shift, and go to state 65
+    NUM_FLOAT   shift, and go to state 59
+    CHAR_VAL    shift, and go to state 60
+
+    var       go to state 21
+    Expr      go to state 153
+    var_ref   go to state 62
+    funcCall  go to state 63
+    Const     go to state 64
+
+
+State 151
+
+   87 FuncDeclTail: LEFTCURLY FuncVarDecs FuncStatements FuncReturn . RIGHTCURLY
+
+    RIGHTCURLY  shift, and go to state 154
+
+
+State 152
+
+   78 FuncDeclHead: $@6 FuncType ID LEFTPAREN $@7 . ParamDecList RIGHTPAREN
+
+    VOID_T  shift, and go to state 155
+
+    VOID_T      [reduce using rule 85 ($@8)]
+    RIGHTPAREN  reduce using rule 82 (ParamDecList)
+    $default    reduce using rule 85 ($@8)
+
+    ParamDecList      go to state 156
+    ParamDecListTail  go to state 157
+    ParamDecl         go to state 158
+    $@8               go to state 159
+
+
+State 153
+
+   45 Expr: Expr . PLUS Expr
+   46     | Expr . MINUS Expr
+   47     | Expr . TIMES Expr
+   48     | Expr . DIVIDE Expr
+   49     | Expr . EQCOND Expr
+   50     | Expr . NOTEQUAL Expr
+   51     | Expr . ORCOND Expr
+   52     | Expr . ANDCOND Expr
+   54     | Expr . LTCOND Expr
+   55     | Expr . GTCOND Expr
+   56     | Expr . LTECOND Expr
+   57     | Expr . GTECOND Expr
+   90 FuncReturn: RETURN_T Expr . SEMICOLON
+
+    PLUS       shift, and go to state 90
+    MINUS      shift, and go to state 91
+    TIMES      shift, and go to state 92
+    DIVIDE     shift, and go to state 93
+    SEMICOLON  shift, and go to state 160
+    ANDCOND    shift, and go to state 95
+    ORCOND     shift, and go to state 96
+    LTCOND     shift, and go to state 97
+    GTCOND     shift, and go to state 98
+    LTECOND    shift, and go to state 99
+    GTECOND    shift, and go to state 100
+    NOTEQUAL   shift, and go to state 101
+    EQCOND     shift, and go to state 102
+
+
+State 154
+
+   87 FuncDeclTail: LEFTCURLY FuncVarDecs FuncStatements FuncReturn RIGHTCURLY .
+
+    $default  reduce using rule 87 (FuncDeclTail)
+
+
+State 155
+
+   81 ParamDecList: VOID_T .
+
+    $default  reduce using rule 81 (ParamDecList)
+
+
+State 156
+
+   78 FuncDeclHead: $@6 FuncType ID LEFTPAREN $@7 ParamDecList . RIGHTPAREN
+
+    RIGHTPAREN  shift, and go to state 161
+
+
+State 157
+
+   80 ParamDecList: ParamDecListTail .
+   83 ParamDecListTail: ParamDecListTail . COMMA ParamDecl
+
+    COMMA  shift, and go to state 162
+
+    $default  reduce using rule 80 (ParamDecList)
+
+
+State 158
+
+   84 ParamDecListTail: ParamDecl .
+
+    $default  reduce using rule 84 (ParamDecListTail)
+
+
+State 159
+
+   86 ParamDecl: $@8 . Type var
+
+    INT_T    shift, and go to state 1
+    CHAR_T   shift, and go to state 2
+    VOID_T   shift, and go to state 3
+    FLOAT_T  shift, and go to state 4
+
+    Type  go to state 163
+
+
+State 160
+
+   90 FuncReturn: RETURN_T Expr SEMICOLON .
+
+    $default  reduce using rule 90 (FuncReturn)
+
+
+State 161
+
+   78 FuncDeclHead: $@6 FuncType ID LEFTPAREN $@7 ParamDecList RIGHTPAREN .
+
+    $default  reduce using rule 78 (FuncDeclHead)
+
+
+State 162
+
+   83 ParamDecListTail: ParamDecListTail COMMA . ParamDecl
+
+    $default  reduce using rule 85 ($@8)
+
+    ParamDecl  go to state 164
+    $@8        go to state 159
+
+
+State 163
+
+   86 ParamDecl: $@8 Type . var
+
+    ID  shift, and go to state 70
+
+    var  go to state 165
+
+
+State 164
+
+   83 ParamDecListTail: ParamDecListTail COMMA ParamDecl .
+
+    $default  reduce using rule 83 (ParamDecListTail)
+
+
+State 165
+
+   86 ParamDecl: $@8 Type var .
+
+    $default  reduce using rule 86 (ParamDecl)
